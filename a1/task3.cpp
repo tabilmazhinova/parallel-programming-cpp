@@ -13,10 +13,10 @@ using namespace chrono;
 int main() {
     const int N = 1000000;
 
-    // Динамическое выделение памяти
+    // Выделяем память под массив
     int* arr = new int[N];
 
-    // Генерация случайных чисел 1..100
+    // Заполняем массив случайными числами от 1 до 100
     mt19937 rng(123);
     uniform_int_distribution<int> dist(1, 100);
 
@@ -24,7 +24,7 @@ int main() {
         arr[i] = dist(rng);
     }
 
-    // ==================== SEQUENTIAL ====================
+    // Последовательный поиск минимума и максимума
     auto startSeq = high_resolution_clock::now();
 
     int minSeq = arr[0];
@@ -38,7 +38,7 @@ int main() {
     auto endSeq = high_resolution_clock::now();
     auto timeSeq = duration_cast<microseconds>(endSeq - startSeq).count();
 
-    // ==================== PARALLEL (OpenMP) ====================
+    // Параллельный поиск с использованием OpenMP
     int globalMin = numeric_limits<int>::max();
     int globalMax = numeric_limits<int>::min();
 
@@ -63,6 +63,7 @@ int main() {
         }
     }
 #else
+    // Если OpenMP не поддерживается, используем обычный цикл
     for (int i = 0; i < N; i++) {
         if (arr[i] < globalMin) globalMin = arr[i];
         if (arr[i] > globalMax) globalMax = arr[i];
@@ -72,7 +73,7 @@ int main() {
     auto endPar = high_resolution_clock::now();
     auto timePar = duration_cast<microseconds>(endPar - startPar).count();
 
-    // ==================== OUTPUT ====================
+    // Вывод результатов
     cout << "Sequential Min: " << minSeq << endl;
     cout << "Sequential Max: " << maxSeq << endl;
     cout << "Sequential Time: " << timeSeq << " us\n\n";

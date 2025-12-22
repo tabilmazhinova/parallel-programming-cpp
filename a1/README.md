@@ -42,6 +42,7 @@ g++-15 -std=c++17 -O2 -fopenmp task4.cpp -o task4
 
 ## Output
     Вывод - > output.png 
+    Блок схема -> bsh-task1.png, bsh-task2.png, bsh-task3.png, bsh-task4.png
 ## Контрольные вопросы
 
 ## 1. В чём отличие динамического массива от статического массива в языке C++?

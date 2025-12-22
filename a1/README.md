@@ -41,7 +41,7 @@ g++-15 -std=c++17 -O2 -fopenmp task4.cpp -o task4
 пример: - export OMP_NUM_THREADS=8
 
 ## Output
-    ![Program output](output.png)
+    Вывод - > output.png 
 ## Контрольные вопросы
 
 ## 1. В чём отличие динамического массива от статического массива в языке C++?

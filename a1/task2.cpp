@@ -1,56 +1,59 @@
-#include <iostream>
-#include <random>      // генерация случайных чисел
-#include <chrono>      // измерение времени
+#include <iostream>    // ввод и вывод данных (cout, endl)
+#include <random>      // современные генераторы случайных чисел
+#include <chrono>      // измерение времени выполнения
 
-using namespace std;
-using namespace chrono;
+using namespace std;   // упрощаем обращение к стандартной библиотеке
+using namespace chrono; // чтобы не писать chrono:: перед таймерами
 
-int main() {
-    const int N = 1000000;
+int main() { 
+    const int N = 1000000;   // размер массива (1 миллион элементов)
 
     // Динамическое выделение памяти для массива
-    int* arr = new int[N];
+    int* arr = new int[N];   // массив создаётся в куче (heap)
 
     // Инициализация генератора случайных чисел
-    // Значения будут в диапазоне от 1 до 100
-    mt19937 rng(123);
+    // mt19937 — детерминированный и быстрый генератор (Mersenne Twister)
+    mt19937 rng(123);        // фиксированный seed (для воспроизводимых результатов)
+
+    // Распределение равномерных случайных чисел в диапазоне [1; 100]
     uniform_int_distribution<int> dist(1, 100);
 
     // Заполнение массива случайными числами
-    for (int i = 0; i < N; i++) {
-        arr[i] = dist(rng);
+    for (int i = 0; i < N; i++) {  // проходим по всем элементам массива
+        arr[i] = dist(rng);        // генерируем случайное число и сохраняем его
     }
 
     // Засекаем время начала выполнения алгоритма
-    auto start = high_resolution_clock::now();
+    auto start = high_resolution_clock::now(); // старт таймера
 
     // Инициализация минимального и максимального значений
-    int minVal = arr[0];
-    int maxVal = arr[0];
+    int minVal = arr[0];           // предполагаем, что первый элемент — минимум
+    int maxVal = arr[0];           // и максимум
 
     // Последовательный поиск минимума и максимума
-    for (int i = 1; i < N; i++) {
-        if (arr[i] < minVal) {
-            minVal = arr[i];
+    for (int i = 1; i < N; i++) {  // начинаем со второго элемента
+        if (arr[i] < minVal) {     // если нашли меньше текущего минимума
+            minVal = arr[i];       // обновляем минимум
         }
-        if (arr[i] > maxVal) {
-            maxVal = arr[i];
+        if (arr[i] > maxVal) {     // если нашли больше текущего максимума
+            maxVal = arr[i];       // обновляем максимум
         }
     }
 
     // Засекаем время окончания выполнения алгоритма
-    auto end = high_resolution_clock::now();
+    auto end = high_resolution_clock::now(); // конец таймера
 
     // Вычисляем время выполнения в микросекундах
-    auto duration = duration_cast<microseconds>(end - start).count();
+    auto duration =
+        duration_cast<microseconds>(end - start).count(); // разница времени
 
-    // Вывод результатов
-    cout << "Sequential Min: " << minVal << endl;
-    cout << "Sequential Max: " << maxVal << endl;
-    cout << "Time: " << duration << " us" << endl;
+    // Вывод результатов на экран
+    cout << "Sequential Min: " << minVal << endl; // минимальное значение
+    cout << "Sequential Max: " << maxVal << endl; // максимальное значение
+    cout << "Time: " << duration << " us" << endl; // время выполнения в микросекундах
 
     // Освобождение выделенной памяти
-    delete[] arr;
+    delete[] arr;                  // освобождаем память, выделенную через new[]
 
-    return 0;
+    return 0;                      // успешное завершение программы
 }

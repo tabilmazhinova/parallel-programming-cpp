@@ -1,34 +1,35 @@
-#include <iostream>
-#include <cstdlib>   // rand, srand
-#include <ctime>     // time
+#include <iostream>   // библиотека для ввода и вывода (cout, endl)
+#include <cstdlib>    // функции rand() и srand()
+#include <ctime>      // функция time() для генерации seed
 
-using namespace std;
+using namespace std;  // чтобы не писать std::cout, std::endl и т.д.
 
-int main() {
-    const int N = 50000;
+int main() {          // точка входа в программу
+    const int N = 50000;   // размер массива (константа, не изменяется)
 
-    // динамическое выделение памяти
-    int* arr = new int[N];
+    // динамическое выделение памяти под массив из N элементов
+    int* arr = new int[N];    // массив создаётся в куче (heap)
 
-    // инициализация генератора случайных чисел
-    srand(time(nullptr));
+    // инициализация генератора случайных чисел текущим временем
+    srand(time(nullptr));     // чтобы при каждом запуске были разные числа
 
-    // заполнение массива значениями от 1 до 100
-    for (int i = 0; i < N; i++) {
-        arr[i] = rand() % 100 + 1;
+    // заполнение массива случайными значениями от 1 до 100
+    for (int i = 0; i < N; i++) {   // проходим по всем элементам массива
+        arr[i] = rand() % 100 + 1;  // случайное число в диапазоне [1; 100]
+    }
+
+    // вычисление суммы всех элементов массива
+    long long sum = 0;              // long long — чтобы избежать переполнения
+    for (int i = 0; i < N; i++) {   // цикл по массиву
+        sum += arr[i];              // добавляем текущий элемент к сумме
     }
 
     // вычисление среднего значения
-    long long sum = 0;
-    for (int i = 0; i < N; i++) {
-        sum += arr[i];
-    }
+    double average = static_cast<double>(sum) / N; // приводим к double для точного деления
+    cout << "Average value: " << average << endl;  // вывод результата на экран
 
-    double average = static_cast<double>(sum) / N;
-    cout << "Average value: " << average << endl;
+    // освобождение динамически выделенной памяти
+    delete[] arr;                   // обязательно освобождаем память после использования
 
-    // освобождение памяти
-    delete[] arr;
-
-    return 0;
+    return 0;                       // успешное завершение программы
 }
